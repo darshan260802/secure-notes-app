@@ -6,11 +6,11 @@ import { MessageInstance } from "antd/es/message/interface"
 export default function Note({messageApi}: {messageApi: MessageInstance}) {
 
     const navigation = useNavigate()
-    const [notes, setNotes] = useState([])
+    const [notes, setNotes] = useState<any[]>([])
 
     useLayoutEffect(() => {
-        getNotes().then((data) => {
-
+        getNotes().then((data:any) => {
+            setNotes(data.notes)
         }).catch((error) => {
             if(error.status && error.status === 401) {
                 navigation('/auth');
