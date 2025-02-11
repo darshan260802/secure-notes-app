@@ -42,7 +42,7 @@ export default function Signup({
           <Input.Password placeholder="Password" />
         </Form.Item>
         <Form.Item label={null}>
-          <Button type="primary" htmlType="submit" block loading={isLoading}>
+          <Button type="primary" htmlType="submit" block disabled={isLoading}>
             Sign up
           </Button>
         </Form.Item>

@@ -1,14 +1,16 @@
-import { FormInstance, Tabs } from "antd";
+import { FormInstance, message, Tabs } from "antd";
 import React, { useState } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import { userLogin, userRegister } from "../api/auth";
+import { useNavigate } from "react-router";
+import { MessageInstance } from "antd/es/message/interface";
 
-const Auth: React.FC = () => {
-
+const Auth = ({messageApi}: {messageApi: MessageInstance}) => {
+  const navigate = useNavigate();
   const [state, setState] = useState({
-    isLoading: false
-  })
+    isLoading: false,
+  });
   const tabItems = [
     {
       label: "Login",
@@ -20,7 +22,9 @@ const Auth: React.FC = () => {
       label: "Sign Up",
       disabled: state.isLoading,
       key: "signup",
-      children: <Signup handleSignup={handleAuth} isLoading={state.isLoading} />,
+      children: (
+        <Signup handleSignup={handleAuth} isLoading={state.isLoading} />
+      ),
     },
   ];
 
@@ -33,20 +37,63 @@ const Auth: React.FC = () => {
     form: FormInstance
   ) {
     setState({ ...state, isLoading: true });
+    messageApi.open({
+      type: "loading",
+      content:
+        "name" in values && values.name
+          ? "Creating Account..."
+          : "Logging in...",
+      duration: 0,
+    });
     if ("name" in values && values.name) {
       userRegister({ ...values, name: values.name })
-        .then((res) => {})
+        .then((res) => {
+          messageApi.destroy();
+          messageApi.open({
+            type: "success",
+            content: res.data.message,
+            duration: 2,
+          });
+          navigate('/');
+          return
+
+        })
         .catch((err) => {
-          console.log(err);
-        }).finally(() => {
+          messageApi.destroy();
+          messageApi.open({
+            type: "error",
+            content: err.response.data.message,
+            duration: 2,
+          });
+          console.log(err.response.data.message);
+        })
+        .finally(() => {
+          form?.resetFields();
           setState({ ...state, isLoading: false });
         });
     } else {
       userLogin(values)
-        .then((res) => {})
+        .then((res) => {
+          messageApi.destroy();
+          messageApi.open({
+            type: "success",
+            content: res.data.message,
+            duration: 2,
+          });
+          navigate('/');
+          return
+        })
         .catch((err) => {
+          messageApi.destroy();
+          messageApi.open({
+            type: "error",
+            content: err.response.data.message,
+            duration: 2,
+          });
           console.log(err);
-        }).finally(() => {
+        })
+        .finally(() => {
+          form?.resetFields();
           setState({ ...state, isLoading: false });
         });
     }

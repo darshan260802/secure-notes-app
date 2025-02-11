@@ -1,8 +1,9 @@
 import { useLayoutEffect, useState } from "react"
 import { getNotes } from "../api/note"
 import { useNavigate } from "react-router"
+import { MessageInstance } from "antd/es/message/interface"
 
-export default function Note() {
+export default function Note({messageApi}: {messageApi: MessageInstance}) {
 
     const navigation = useNavigate()
     const [notes, setNotes] = useState([])
