@@ -33,11 +33,11 @@ export default function Note({ messageApi }: { messageApi: MessageInstance }) {
   }
 
   function closeModal() {
-    setUtilState((s) => ({ ...s, modalOpen: false }));
+    setUtilState((s:any) => ({ ...s, modalOpen: false }));
   }
 
   function handleSubmit(values: any) {
-    setUtilState((s) => ({ ...s, modalLoading: true }));
+    setUtilState((s:any) => ({ ...s, modalLoading: true }));
     createNote(values)
       .then((_: any) => {
         messageApi.success("Note created successfully!");
@@ -48,7 +48,7 @@ export default function Note({ messageApi }: { messageApi: MessageInstance }) {
         console.log(error);
       })
       .finally(() => {
-        setUtilState((s) => ({ ...s, modalLoading: false }));
+        setUtilState((s:any) => ({ ...s, modalLoading: false }));
       });
   }
 
@@ -69,7 +69,7 @@ export default function Note({ messageApi }: { messageApi: MessageInstance }) {
                 <FileAddTwoTone
                   style={{ fontSize: 30 }}
                   onClick={() =>
-                    setUtilState((s) => ({ ...s, modalOpen: true }))
+                    setUtilState((s:any) => ({ ...s, modalOpen: true }))
                   }
                   title="Create Note"
                 />

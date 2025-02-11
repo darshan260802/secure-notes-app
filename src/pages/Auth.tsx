@@ -1,5 +1,5 @@
-import { FormInstance, message, Tabs } from "antd";
-import React, { useState } from "react";
+import { FormInstance, Tabs } from "antd";
+import  { useState } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import { userLogin, userRegister } from "../api/auth";
