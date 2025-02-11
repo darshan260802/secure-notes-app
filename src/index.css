@@ -9,3 +9,17 @@
   width: 100vw;
   background-color: #f5f5f5;
 }
+
+.notes-wrapper{
+  height: 100%;
+  width: 100%;
+}
+
+.notes-wrapper .flex{
+  height: 100%;
+}
+
+.notes-wrapper .list{
+  width: 350px;
+  height: 100%;
+}
