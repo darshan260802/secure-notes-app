@@ -54,7 +54,6 @@ const Auth = ({messageApi}: {messageApi: MessageInstance}) => {
             content: res.data.message,
             duration: 2,
           });
-          navigate('/');
           return
 
         })
@@ -102,7 +101,7 @@ const Auth = ({messageApi}: {messageApi: MessageInstance}) => {
   return (
     <div className="auth-wrapper">
       <div className="auth">
-        <Tabs centered items={tabItems} />
+        <Tabs centered  items={tabItems} />
       </div>
     </div>
   );

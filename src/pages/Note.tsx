@@ -3,7 +3,8 @@ import { createNote, getNotes } from "../api/note";
 import { useNavigate } from "react-router";
 import { MessageInstance } from "antd/es/message/interface";
 import { Flex, Form, Input, List, Modal } from "antd";
-import { FileAddTwoTone } from "@ant-design/icons";
+import { FileAddTwoTone, PoweroffOutlined } from "@ant-design/icons";
+import { userLogout } from "../api/auth";
 
 export default function Note({ messageApi }: { messageApi: MessageInstance }) {
   const navigation = useNavigate();
@@ -21,7 +22,7 @@ export default function Note({ messageApi }: { messageApi: MessageInstance }) {
       .then((data: any) => {
         setNotes(data.data.notes);
         console.log(data.notes, data);
-        
+
       })
       .catch((error) => {
         if (error.status && error.status === 401) {
@@ -33,11 +34,11 @@ export default function Note({ messageApi }: { messageApi: MessageInstance }) {
   }
 
   function closeModal() {
-    setUtilState((s:any) => ({ ...s, modalOpen: false }));
+    setUtilState((s: any) => ({ ...s, modalOpen: false }));
   }
 
   function handleSubmit(values: any) {
-    setUtilState((s:any) => ({ ...s, modalLoading: true }));
+    setUtilState((s: any) => ({ ...s, modalLoading: true }));
     createNote(values)
       .then((_: any) => {
         messageApi.success("Note created successfully!");
@@ -48,8 +49,14 @@ export default function Note({ messageApi }: { messageApi: MessageInstance }) {
         console.log(error);
       })
       .finally(() => {
-        setUtilState((s:any) => ({ ...s, modalLoading: false }));
+        setUtilState((s: any) => ({ ...s, modalLoading: false }));
       });
+  }
+
+  function handleLogout(){
+    userLogout().then(() => {
+      navigation('/auth')
+    })
   }
 
   return (
@@ -66,13 +73,18 @@ export default function Note({ messageApi }: { messageApi: MessageInstance }) {
                 className="notes-header"
               >
                 <h2>Notes</h2>
-                <FileAddTwoTone
-                  style={{ fontSize: 30 }}
-                  onClick={() =>
-                    setUtilState((s:any) => ({ ...s, modalOpen: true }))
-                  }
-                  title="Create Note"
-                />
+                <Flex>
+                  <FileAddTwoTone
+                    style={{ fontSize: 30 }}
+                    onClick={() =>
+                      setUtilState((s: any) => ({ ...s, modalOpen: true }))
+                    }
+                    title="Create Note"
+                  />
+                  <PoweroffOutlined style={{ fontSize: 30 }}
+                    onClick={handleLogout}
+                    title="Logout" />
+                </Flex>
               </Flex>
             }
             bordered
