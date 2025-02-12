@@ -13,5 +13,5 @@ export function userRegister(body: {email: string, password: string, name: strin
 }
 
 export function userLogout() {
-    return axiosInstance.post("logout");
+    return axiosInstance.get("logout");
 }
